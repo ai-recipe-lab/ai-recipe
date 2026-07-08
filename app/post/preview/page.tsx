@@ -9,58 +9,46 @@ export default function PreviewPage() {
   const tools = searchParams.get("tools") || "使用するAI・ツール";
   const steps = searchParams.get("steps") || "手順が入ります";
 
+  function saveRecipe() {
+    const newRecipe = {
+      title,
+      tools,
+      steps,
+      createdAt: new Date().toISOString(),
+    };
+
+    const savedRecipes = JSON.parse(localStorage.getItem("recipes") || "[]");
+    savedRecipes.push(newRecipe);
+    localStorage.setItem("recipes", JSON.stringify(savedRecipes));
+
+    alert("投稿を保存しました");
+    window.location.href = "/";
+  }
+
   return (
     <main className="min-h-screen bg-[#fafaf8] text-gray-900">
       <div className="mx-auto max-w-3xl px-6 py-16">
-        <button
-          onClick={() => window.history.back()}
-          className="text-sm text-gray-500 hover:text-gray-900"
-        >
+        <button onClick={() => window.history.back()} className="text-sm text-gray-500">
           ← 編集画面へ戻る
         </button>
 
-        <div className="mt-10 flex items-center justify-between">
-          <div>
-            <p className="text-sm font-bold text-orange-600">
-              PREVIEW
-            </p>
-            <h1 className="mt-2 text-3xl font-bold">
-              投稿プレビュー
-            </h1>
+        <h1 className="mt-10 text-4xl font-bold">投稿プレビュー</h1>
+
+        <article className="mt-8 rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+          <span className="rounded-full bg-orange-100 px-4 py-2 text-sm text-orange-700">
+            AIレシピ
+          </span>
+
+          <h2 className="mt-6 text-3xl font-bold">{title}</h2>
+
+          <div className="mt-8 border-t border-gray-100 pt-6">
+            <p className="text-sm font-bold text-gray-400">使用するAI・ツール</p>
+            <p className="mt-2 text-gray-700">{tools}</p>
           </div>
 
-          <span className="rounded-full bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700">
-            公開前
-          </span>
-        </div>
-
-        <article className="mt-8 overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-          <div className="p-8 md:p-10">
-            <span className="inline-block rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
-              AIレシピ
-            </span>
-
-            <h2 className="mt-5 text-3xl font-bold leading-tight">
-              {title}
-            </h2>
-
-            <div className="mt-8 border-t border-gray-100 pt-6">
-              <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                使用するAI・ツール
-              </p>
-              <p className="mt-2 text-base font-medium text-gray-700">
-                {tools}
-              </p>
-            </div>
-
-            <div className="mt-8 border-t border-gray-100 pt-6">
-              <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                手順
-              </p>
-              <p className="mt-3 whitespace-pre-wrap text-base leading-8 text-gray-700">
-                {steps}
-              </p>
-            </div>
+          <div className="mt-8 border-t border-gray-100 pt-6">
+            <p className="text-sm font-bold text-gray-400">手順</p>
+            <p className="mt-3 whitespace-pre-wrap leading-8 text-gray-700">{steps}</p>
           </div>
         </article>
 
@@ -73,7 +61,7 @@ export default function PreviewPage() {
           </button>
 
           <button
-            onClick={() => alert("次の開発で本当の投稿保存機能を追加します")}
+            onClick={saveRecipe}
             className="flex-1 rounded-xl bg-gray-900 px-6 py-4 font-bold text-white"
           >
             この内容で投稿する

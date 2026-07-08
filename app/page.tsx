@@ -46,9 +46,12 @@ export default function Home() {
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <div className="text-xl font-bold">世界一優しいAIレシピ</div>
-          <button className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white">
+          <a
+            href="/post"
+            className="rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white"
+          >
             レシピを投稿
-          </button>
+          </a>
         </div>
       </header>
 

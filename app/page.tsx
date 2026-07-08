@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const recipes = [
   {
     icon: "🌐",
@@ -29,6 +33,14 @@ const recipes = [
 ];
 
 export default function Home() {
+  const [searchText, setSearchText] = useState("");
+
+  const filteredRecipes = recipes.filter((recipe) =>
+    `${recipe.title} ${recipe.category} ${recipe.description} ${recipe.tools}`
+      .toLowerCase()
+      .includes(searchText.toLowerCase())
+  );
+
   return (
     <main className="min-h-screen bg-[#fafaf8] text-gray-900">
       <header className="border-b border-gray-200 bg-white">
@@ -61,6 +73,8 @@ export default function Home() {
           <span className="pl-4 text-gray-400">🔍</span>
           <input
             type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
             placeholder="やりたいことを検索..."
             className="w-full bg-transparent px-4 py-3 outline-none"
           />
@@ -75,7 +89,7 @@ export default function Home() {
         <h2 className="mt-2 text-3xl font-bold">人気のAIレシピ</h2>
 
         <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <a
               key={recipe.title}
               href={recipe.href}
@@ -97,12 +111,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      <footer className="border-t border-gray-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-gray-500">
-          世界一優しいAIレシピ — AIで暮らしを少しずつ豊かに。
-        </div>
-      </footer>
     </main>
   );
 }
